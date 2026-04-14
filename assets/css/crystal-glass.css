@@ -255,26 +255,30 @@ label {
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* Strip white from all inner nav containers */
-.main-header-area .header-custom-container,
-.main-header-area .container,
-.main-header-area .row,
-.main-header-area .main-menu,
-.main-header-area .main-menu nav,
-.main-header-area .main-menu ul {
-  background: transparent !important;
-  width: auto !important;
-  max-width: none !important;
-  margin: 0 !important;
-  padding: 0 !important;
+/* Strip white from all inner nav containers (desktop only) */
+@media (min-width: 992px) {
+  .main-header-area .header-custom-container,
+  .main-header-area .container,
+  .main-header-area .row,
+  .main-header-area .main-menu,
+  .main-header-area .main-menu nav,
+  .main-header-area .main-menu ul {
+    background: transparent !important;
+    width: auto !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
 }
-.main-header-area .row {
-  flex-wrap: nowrap !important;
-}
-.main-header-area .col-lg-10 {
-  flex: 1 !important;
-  width: auto !important;
-  padding: 0 !important;
+@media (min-width: 992px) {
+  .main-header-area .row {
+    flex-wrap: nowrap !important;
+  }
+  .main-header-area .col-lg-10 {
+    flex: 1 !important;
+    width: auto !important;
+    padding: 0 !important;
+  }
 }
 
 /* Hide the mobile logo duplicate inside nav bar on desktop only */
@@ -1803,98 +1807,181 @@ ul.breadcrumb li.active {
 }
 
 /* ============================================================
-   MOBILE / TABLET — show standard header with hamburger
+   MOBILE / TABLET — Dynamic glass navbar (same as desktop)
    ============================================================ */
 @media (max-width: 991px) {
-  /* Remove glass pill styling on mobile */
+
+  /* ── HIDE HAMBURGER, SLIDE-BAR, OVERLAY, MEANMENU ── */
+  .hamburger-menu,
+  .right-nav,
+  .round-menu,
+  .slide-bar,
+  .body-overlay,
+  .mean-bar,
+  .mean-push,
+  .mean-nav,
+  .meanmenu-reveal {
+    display: none !important;
+  }
+
+  /* Hide the top info bar on mobile */
+  .theme-main-menu > .container.header-custom-container {
+    display: none !important;
+  }
+
+  /* Hide the hamburger column specifically (col-lg-2) */
+  .main-header-area .row > .col-lg-2 {
+    display: none !important;
+  }
+
+  /* ── MAIN HEADER — glass pill on mobile ── */
   .theme-menu-two .main-header-area,
   .main-header-area {
+    display: block !important;
+    width: 94% !important;
+    max-width: 94% !important;
+    margin: 8px auto !important;
+    padding: 8px 14px !important;
+    border-radius: 28px !important;
+    border: 1px solid rgba(255, 255, 255, 0.55) !important;
+    outline: 1px solid rgba(200, 210, 230, 0.18) !important;
+    outline-offset: 2px !important;
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, 0.12) inset,
+      0 6px 24px rgba(0, 60, 160, 0.08),
+      0 2px 6px rgba(0, 0, 0, 0.04),
+      0 1px 0px rgba(255, 255, 255, 0.65) inset !important;
+    background: rgba(235, 238, 244, 0.65) !important;
+    backdrop-filter: blur(36px) saturate(210%) brightness(1.05) !important;
+    -webkit-backdrop-filter: blur(36px) saturate(210%) brightness(1.05) !important;
+    animation: headerSlideIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) both !important;
+  }
+
+  /* ── LAYOUT — inner containers take full width ── */
+  .main-header-area .container,
+  .main-header-area .header-custom-container {
+    padding: 0 !important;
     width: 100% !important;
     max-width: 100% !important;
-    border-radius: 0 !important;
-    border: none !important;
-    outline: none !important;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.06) !important;
-    background: #fff !important;
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-    padding: 10px 0 !important;
+    background: transparent !important;
+  }
+  .main-header-area .row {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    width: 100% !important;
     margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Content column — full width */
+  .main-header-area .row > .col-lg-10 {
+    flex: 1 1 100% !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+  }
+
+  /* ── SHOW LOGO on mobile (override d-lg-none) ── */
+  .main-header-area .logo-area,
+  .main-header-area .logo-area.d-lg-none,
+  .main-header-area .logo-area.d-lg-none.d-md-inline-block {
+    display: inline-block !important;
+    margin-right: 8px !important;
+    flex-shrink: 0 !important;
+  }
+  .main-header-area .logo-area img {
+    max-height: 26px !important;
+  }
+
+  /* ── FORCE SHOW MAIN MENU (override Bootstrap d-none d-lg-block) ── */
+  .main-header-area .main-menu,
+  .main-header-area .main-menu.d-none,
+  .main-header-area .main-menu.d-none.d-lg-block,
+  .main-header-area .d-none.d-lg-block {
+    display: block !important;
+    flex: 1 1 auto !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+  }
+  .main-header-area .main-menu::-webkit-scrollbar {
+    display: none !important;
+  }
+  .main-header-area .main-menu nav,
+  .main-header-area .main-menu nav#mobile-menu {
+    display: block !important;
+  }
+
+  /* Nav links — compact horizontal scrollable row */
+  .main-menu .menu-list,
+  .main-menu ul.menu-list {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    gap: 2px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    white-space: nowrap !important;
+    list-style: none !important;
+  }
+  .main-menu .menu-list li {
+    display: inline-flex !important;
+    flex-shrink: 0 !important;
+    background: transparent !important;
+  }
+  .main-menu .menu-list li a {
+    font-size: 11px !important;
+    padding: 5px 9px !important;
+    border-radius: 100px !important;
+    white-space: nowrap !important;
+    display: inline-block !important;
+    color: rgba(25, 28, 38, 0.80) !important;
+    -webkit-text-fill-color: rgba(25, 28, 38, 0.80) !important;
+    font-weight: 500 !important;
+    letter-spacing: 0 !important;
+    text-transform: none !important;
+    transition: background 0.22s ease !important;
+  }
+  .main-menu .menu-list li a:hover,
+  .main-menu .menu-list li a.active {
+    background: rgba(0, 0, 0, 0.08) !important;
+    color: rgba(10, 12, 20, 1) !important;
+    -webkit-text-fill-color: rgba(10, 12, 20, 1) !important;
+  }
+
+  /* ── STICKY — dynamic island on mobile ── */
+  .main-header-area.sticky-menu {
+    position: fixed !important;
+    top: 8px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: 94% !important;
+    max-width: 94% !important;
+    border-radius: 28px !important;
+    border: 1px solid rgba(255, 255, 255, 0.55) !important;
+    outline: 1px solid rgba(200, 210, 230, 0.20) !important;
+    outline-offset: 2px !important;
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, 0.15) inset,
+      0 8px 32px rgba(0, 80, 200, 0.10),
+      0 2px 6px rgba(0, 0, 0, 0.05),
+      0 1px 0px rgba(255, 255, 255, 0.75) inset !important;
+    background: rgba(235, 238, 244, 0.62) !important;
+    backdrop-filter: blur(40px) saturate(220%) brightness(1.06) !important;
+    -webkit-backdrop-filter: blur(40px) saturate(220%) brightness(1.06) !important;
+    padding: 6px 14px !important;
+    margin: 0 !important;
+    z-index: 9999 !important;
     animation: none !important;
   }
 
-  /* Show the mobile logo */
-  .main-header-area .logo-area {
-    display: inline-block !important;
-  }
-  .main-header-area .logo-area.d-lg-none {
-    display: inline-block !important;
-  }
-  .main-header-area .logo-area img {
-    max-height: 36px !important;
-  }
-
-  /* Show hamburger menu icon */
-  .hamburger-menu {
-    display: block !important;
-  }
-  .right-nav {
-    display: flex !important;
-  }
-  .round-menu {
-    border-color: var(--cc-border) !important;
-  }
-  .round-menu i {
-    color: var(--cc-text) !important;
-  }
-
-  /* Slide bar mobile menu */
-  .slide-bar {
-    display: block !important;
-    background: #fff !important;
-  }
-  .slide-bar.show {
-    display: block !important;
-  }
-  .body-overlay {
-    display: block !important;
-  }
-
-  /* Hide sticky dynamic island on mobile — use standard header */
-  .main-header-area.sticky-menu {
-    width: 100% !important;
-    max-width: 100% !important;
-    top: 0 !important;
-    left: 0 !important;
-    transform: none !important;
-    border-radius: 0 !important;
-    border: none !important;
-    outline: none !important;
-    background: rgba(255, 255, 255, 0.95) !important;
-    backdrop-filter: blur(20px) !important;
-    -webkit-backdrop-filter: blur(20px) !important;
-    padding: 10px 0 !important;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.08) !important;
-  }
-
-  /* Show logo inside sticky header on mobile too */
+  /* Show logo in sticky too */
   .main-header-area.sticky-menu .logo-area {
     display: inline-block !important;
-  }
-
-  /* Restore proper column sizing */
-  .main-header-area .col-lg-10 {
-    flex: 0 0 auto !important;
-    width: 50% !important;
-  }
-  .main-header-area .col-6 {
-    flex: 0 0 auto !important;
-    width: 50% !important;
-  }
-
-  /* Also hide the top info bar logo column on mobile — it's redundant */
-  .theme-main-menu > .container.header-custom-container {
-    display: none !important;
   }
 
   /* Disable custom cursor on touch devices */
